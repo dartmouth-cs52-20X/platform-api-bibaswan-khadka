@@ -3,6 +3,13 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import path from 'path';
 import morgan from 'morgan';
+import mongoose from 'mongoose';
+import apiRouter from './router';
+
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/platform_db';
+mongoose.connect(mongoURI);
+// set mongoose promises to es6 default
+mongoose.Promise = global.Promise;
 
 // initialize
 const app = express();
@@ -33,6 +40,7 @@ app.get('/', (req, res) => {
   res.send('hi');
 });
 
+app.use('/api', apiRouter);
 // START THE SERVER
 // =============================================================================
 const port = process.env.PORT || 9090;
